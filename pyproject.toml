@@ -1,0 +1,37 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pm"
+version = "1.0.0"
+description = "Manages processes"
+readme = "README.md"
+authors =[{name = "Md. Mahmudul Hasan", email = "mhriyad98@gmail.com"}]
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["process manager", "process", "pm"]
+
+dependencies = [
+    "typer==0.12.5",
+    'psutil==6.0.0',
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = []
+
+[project.urls]
+Homepage = "https://github.com/mhriyad99/process_manager"
+
+[project.scripts]
+pm = "pm.main:app"
