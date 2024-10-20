@@ -18,19 +18,13 @@ state = StateManager(STATE_FILE)
 
 @app.command()
 def greet(name: str):
-    print(f"Hello, {name}! How are you?")
+    print(f"Hello, {name}!")
 
-# @app.command()
-# def create(command: str):
-#     id = str(uuid.uuid4())
-#     processes[id] = command
-#     save_state()
-#     typer.echo(f"Process {id} started with command: {command}")
 
 @app.command()
 def create(command: str, name: str = None) -> int:
     """Create a new subprocess and optionally assign a name."""
-    proc = subprocess.Popen(command, shell=False)
+    proc = subprocess.Popen(command, shell=True)
     pid = proc.pid
     data = {
         "command": command,
@@ -145,10 +139,6 @@ def kill_all():
     state.remove_all_processes()
     typer.echo("All processes have been terminated and removed from the state.")
 
-# def save_state():
-#     """Save current processes state to a file."""
-#     with open(STATE_FILE, "w") as file:
-#         json.dump(processes, file)
 
 
 def signal_handler(sig, frame):
