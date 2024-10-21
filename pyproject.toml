@@ -3,8 +3,8 @@ requires      = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pm"
-version = "1.0.0"
+name = "pmflow"
+version = "1.0.1"
 description = "Manages processes"
 readme = "README.md"
 authors =[{name = "Md. Mahmudul Hasan", email = "mhriyad98@gmail.com"}]

@@ -12,7 +12,6 @@ class StateManager:
         self.load_state()
 
     def load_state(self):
-        print(f"Loading state from {self.STATE_FILE}")
 
         if not os.path.exists(self.STATE_FILE):
             with open(self.STATE_FILE, "w") as file:
@@ -43,6 +42,10 @@ class StateManager:
 
     def update_process(self, pid, key, value):
         self.processes[str(pid)][key] = value
+        self.save()
+
+    def bulk_update(self, bulk_data):
+        self.processes = bulk_data
         self.save()
 
 

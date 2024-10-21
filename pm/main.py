@@ -4,7 +4,6 @@ import signal
 import sys
 
 import typer
-import json
 import psutil
 import subprocess
 from rich.console import Console
@@ -44,8 +43,6 @@ def pause(pid: int):
             all_processes = [process] + process.children(recursive=True)
             for proc in all_processes:
                 proc.send_signal(signal.SIGSTOP)
-            # Update process status to 'paused' and save state
-            state.update_process(pid, "status", "paused")
             typer.echo(f"Process {pid} and its child processes have been paused.")
         except psutil.NoSuchProcess:
             typer.echo("Process not found.")
@@ -80,11 +77,13 @@ def ls():
 @app.command()
 def recreate():
     """Recreate all managed subprocesses."""
+    new_processes = {}
     for pid, data in state.processes.items():
         proc = subprocess.Popen(data["command"], shell=True)
-        state.remove_process(pid)
-        state.add_process(proc.pid, data)
+        new_processes[str(proc.pid)] = data
         typer.echo(f"Process {proc.pid} recreated with command: {data['command']}")
+
+    state.bulk_update(new_processes)
 
 
 @app.command()
@@ -105,16 +104,17 @@ def respawn_all():
 @app.command()
 def kill(pid: int):
     """Kill a subprocess by PID."""
-    if str(pid) in state.processes:
+    pid_str = str(pid)
+    if pid_str in state.processes:
         try:
-            process = psutil.Process(pid)
+            process = psutil.Process(int(pid))
             for child in process.children(recursive=True):
                 child.terminate()
             process.terminate()
-            state.remove_process(pid)
+            state.remove_process(pid_str)
             typer.echo(f"Process {pid} killed.")
         except psutil.NoSuchProcess:
-            state.remove_process(pid)
+            state.remove_process(pid_str)
             typer.echo("Process not found. Removed from the state file.")
     else:
         typer.echo("Process not managed by this tool.")
