@@ -3,6 +3,10 @@
 
 <p style="font-size:15px;">This tools keeps the information of the processes it manages in a json file created at it's installation location</p>
 
+## Installation
+```
+pip install pmflow
+```
 ## Commands
 Create a new process
 ```

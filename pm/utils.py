@@ -56,3 +56,7 @@ def load_state(path):
     if os.path.exists(path):
         with open(path, "r") as file:
             processes = json.load(file)
+
+def signal_handler(sig, frame):
+    typer.echo("Ctrl+C pressed. Terminating all managed processes...")
+    sys.exit(0)
