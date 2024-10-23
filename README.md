@@ -8,16 +8,28 @@
 pip install pmflow
 ```
 ## Commands
-Create a new process
+create: Creates a new process
+
+Required arguments:
+- command: str (default: None)
+
+Optional arguments:
+- --name or -n : str (default: None)
+- --group or -g : str (default: process_id)
+- --relation or -r : "parent" | "child" (default: "parent")
+- --verbose or -v: (default: false)
 ```
 pm create "<your command>"
 or
 pm create "<your command>" --name "<your process name>"
 ```
-List all managed processes
+ls: List all managed processes
 
+Optional arguments:
+- --json or -j (default: false)
 ```
 pm ls
+pm ls -j
 ```
 Kill process, kills the process and also removes it from the json file.
 
