@@ -36,6 +36,7 @@ def create(command: Annotated[str, typer.Argument()],
     data = {
         "command": command,
         "name": name,
+        "status": "running",
         "group": group,
         "relation": relation,
     }

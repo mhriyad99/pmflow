@@ -40,7 +40,8 @@ def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False) -> No
             except psutil.NoSuchProcess:
                 status = "doesn't exist"
 
-            table.add_row(pid, properties["name"], status, properties["group"],
+            state.update_process(pid, "status", status)
+            table.add_row(pid, properties["name"], properties["status"], properties["group"],
                           properties["relation"],properties["command"])
 
         console = Console()
