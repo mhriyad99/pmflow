@@ -9,6 +9,7 @@ The commands it manages are
 import typer
 import psutil
 import signal
+from typing_extensions import Annotated
 from pm.settings import state
 
 
@@ -28,7 +29,7 @@ def pause(pid: int):
         typer.echo("Process not managed by this tool.")
 
 
-def kill(pid: int):
+def kill(pid: Annotated[int, None]):
     """Kill a subprocess by PID."""
     pid_str = str(pid)
     if pid_str in state.processes:

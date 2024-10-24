@@ -1,9 +1,11 @@
 import json
 import os
 import sys
+from typing import List, Dict
 
 import typer
 
+from pm.schema import Relation
 
 class StateManager:
     def __init__(self, STATE_FILE):
@@ -25,9 +27,6 @@ class StateManager:
         with open(self.STATE_FILE, "w") as file:
             json.dump(self.processes, file)
 
-    def get_processes(self):
-        return self.processes
-
     def add_process(self, pid, data):
         self.processes[str(pid)] = data
         self.save()
@@ -47,6 +46,18 @@ class StateManager:
     def bulk_update(self, bulk_data):
         self.processes = bulk_data
         self.save()
+
+    def get_processes(self):
+        return self.processes
+
+    def get_parents_groupname(self) -> List[Relation]:
+        parent_groups = [process_meta_data["group"] for process_meta_data in self.processes.values()
+                         if process_meta_data["relation"] == Relation.PARENT]
+        return parent_groups
+
+    def get_a_group(self, group_name: str) -> Dict:
+        group_process = {pid: data for pid, data in self.processes.items() if data["group"] == group_name}
+        return group_process
 
 
 

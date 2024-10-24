@@ -13,12 +13,7 @@ from pm.settings import state
 from typing import Optional
 from enum import Enum
 from typing_extensions import Annotated
-
-
-class Relation(str, Enum):
-    PARENT = 'parent'
-    CHILD = 'child'
-
+from pm.schema import Relation
 
 def create(command: Annotated[str, typer.Argument()],
            name: Annotated[Optional[str], typer.Option("--name","-n")] = None,
@@ -27,11 +22,22 @@ def create(command: Annotated[str, typer.Argument()],
            verbose: Annotated [bool, typer.Option("--verbose", "-v")] = False) -> int:
 
     """Create a new subprocess and optionally assign a name."""
+
+    if relation == Relation.CHILD:
+        if not group:
+            typer.echo(f"Error 800: Please specify an existing group of a parent process")
+            raise typer.Exit(code=1)
+        elif group not in state.get_parents_groupname():
+            typer.echo(f"Error 900: No parent group with this name exist. "
+                       f"Please specify an existing group of a parent process")
+            raise typer.Exit(code=1)
+
     proc = subprocess.Popen(command, shell=True)
     pid = proc.pid
 
-    if not group:
-        group = str(pid)
+    if relation == Relation.PARENT:
+        if not group:
+            group = str(pid)
 
     data = {
         "command": command,

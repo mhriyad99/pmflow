@@ -13,11 +13,35 @@ from pm.settings import state
 from typing_extensions import Annotated
 
 
-def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False) -> None:
+def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False,
+       group_name: Annotated[str, typer.Option("--group", "-g")] = None) -> None:
     """List all managed subprocesses."""
 
+    # Update status of each process
+    for pid, properties in state.get_processes().items():
+        try:
+            process = psutil.Process(int(pid))
+            if process.status() == psutil.STATUS_STOPPED:
+                status = 'paused'
+            else:
+                status = 'running'
+        except psutil.NoSuchProcess:
+            status = "doesn't exist"
+
+        state.update_process(pid, "status", status)
+
+    # Console output block
+    if group_name:
+        process_dict = state.get_a_group(group_name)
+        if not process_dict:
+            typer.echo(f"Error 1000: No process group with group name {group_name} exist")
+            raise typer.Exit(code=1)
+    else:
+        process_dict = state.get_processes()
+
+
     if json_output:
-        json_output = json.dumps(state.get_processes())
+        json_output = json.dumps(process_dict)
         typer.echo(json_output)
 
     else:
@@ -30,17 +54,8 @@ def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False) -> No
         table.add_column("Command", justify="center", style="#00ff26")
 
 
-        for pid, properties in state.get_processes().items():
-            try:
-                process = psutil.Process(int(pid))
-                if process.status() == psutil.STATUS_STOPPED:
-                    status = 'paused'
-                else:
-                    status = 'running'
-            except psutil.NoSuchProcess:
-                status = "doesn't exist"
+        for pid, properties in process_dict.items():
 
-            state.update_process(pid, "status", status)
             table.add_row(pid, properties["name"], properties["status"], properties["group"],
                           properties["relation"],properties["command"])
 
