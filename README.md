@@ -43,10 +43,18 @@ pm ls -j -g <group_name>
 ```
 kill: Kill process, kills the process and also removes it from the json file.
 
+Optional arguments:
+- pid (no flag needed): int (default: 0) kills one process if it's a child process. Otherwise, kills the terminates 
+- --group or -g: <group name> (default: None) kills one group if exist
+- --all or -a : bool (default: false) kills all the process
+
+Note: Only one option can be used at a time.
+
 Example:
 ```
 pm kill <PID>
-pm kill-all
+pm -g <group_name>
+pm -a
 ```
 ### <^> Additional commands
 Recreate all process managed by the tool:
