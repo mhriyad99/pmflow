@@ -14,7 +14,8 @@ from typing_extensions import Annotated
 
 
 def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False,
-       group_name: Annotated[str, typer.Option("--group", "-g")] = None) -> None:
+       group_name: Annotated[str, typer.Option("--group", "-g")] = None,
+       running: Annotated[bool, typer.Option("--running", "-r")] = False) -> None:
     """List all managed subprocesses."""
 
     # Update status of each process
@@ -38,6 +39,9 @@ def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False,
             raise typer.Exit(code=1)
     else:
         process_dict = state.get_processes()
+
+    if running:
+        process_dict ={pid: data for pid, data in process_dict.items() if data["status"] == "running"}
 
 
     if json_output:

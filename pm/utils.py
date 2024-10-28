@@ -59,6 +59,9 @@ class StateManager:
         group_process = {pid: data for pid, data in self.processes.items() if data["group"] == group_name}
         return group_process
 
+    def is_group_exist(self, group_name: str) -> bool:
+        return group_name in self.get_parents_groupname()
+
 
 
 def load_state(path):

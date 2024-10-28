@@ -28,7 +28,7 @@ def create(command: Annotated[str, typer.Argument()],
             typer.echo(f"Error 800: Please specify an existing group of a parent process")
             raise typer.Exit(code=1)
         elif group not in state.get_parents_groupname():
-            typer.echo(f"Error 900: No parent group with this name exist. "
+            typer.echo(f"Error 801: No parent group with this name exist. "
                        f"Please specify an existing group of a parent process")
             raise typer.Exit(code=1)
 
@@ -38,6 +38,8 @@ def create(command: Annotated[str, typer.Argument()],
     if relation == Relation.PARENT:
         if not group:
             group = str(pid)
+        elif state.is_group_exist(group):
+            typer.echo(f"Error 802: A group can have only one parent process.")
 
     data = {
         "command": command,
