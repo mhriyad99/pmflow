@@ -31,15 +31,16 @@ pm create "<command>" -n "<process name>" -g "<group name>" -r "child"
 ls: List all managed processes
 
 Optional arguments:
-- --json or -j (default: false)
-- --group or -g (default: None)
-- 
+- --json or -j: bool (default: false)
+- --group or -g: str (default: None)
+- --running or -r: bool (default: false)
 Example:
 ```
 pm ls
 pm ls -j
 pm ls -g <group_name>
 pm ls -j -g <group_name>
+pm ls -r
 ```
 kill: Kill process, kills the process and also removes it from the json file.
 
