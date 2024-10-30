@@ -3,7 +3,6 @@ This module is related to stopping a process's from running or deleting it altog
 The commands it manages are
     - pause
     - kill
-    - kill-all
 """
 
 import typer
@@ -32,6 +31,7 @@ def pause(pid: int):
 
 def kill(pid: Annotated[Optional[int], typer.Argument()] = 0,
          group: Annotated[Optional[str], typer.Option("--group", "-g")] = None,
+        child: Annotated[Optional[bool], typer.Option("--child", "-c")] = False,
          all: Annotated[Optional[bool], typer.Option("--all", "-a")] = False,):
     """Kill a subprocess by PID, group name."""
 
@@ -55,7 +55,6 @@ def kill(pid: Annotated[Optional[int], typer.Argument()] = 0,
             if state.get_processes()[pid_str]["relation"] == "parent":
                 typer.echo(f"Process {pid} is a parent process. Killing it with all it's children...")
                 process_group = state.get_a_group(state.get_processes()[pid_str]["group"])
-                typer.echo(process_group)
                 if process_group:
                     kill_group_process(process_group)
                     for pid in process_group.keys():
@@ -77,6 +76,10 @@ def kill(pid: Annotated[Optional[int], typer.Argument()] = 0,
     # For group flag --group or -g
     if group:
         process_group = state.get_a_group(group)
+
+        if child:
+            process_group = {pid: data for pid, data in process_group.items() if data["relation"] == "child"}
+
         if process_group:
             kill_group_process(process_group)
             for pid in process_group.keys():

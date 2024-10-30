@@ -40,16 +40,17 @@ pm ls
 pm ls -j
 pm ls -g <group_name>
 pm ls -j -g <group_name>
-pm ls -r
+pm ls -r 
 ```
 kill: Kill process, kills the process and also removes it from the json file.
 
 Optional arguments:
 - pid (no flag needed): int (default: 0) kills one process if it's a child process. Otherwise, kills the terminates 
-- --group or -g: <group name> (default: None) kills one group if exist
+- --group or -g: str (default: None) kills one group if exist
+- --child or -c: bool (default: False) kills all child process in a group
 - --all or -a : bool (default: false) kills all the process
 
-Note: Only one option can be used at a time.
+Note: Other than -c only one options can be used at a time. -c flag must be used with -g
 
 Example:
 ```
