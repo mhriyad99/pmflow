@@ -33,7 +33,16 @@ def kill(pid: Annotated[Optional[int], typer.Argument()] = 0,
          group: Annotated[Optional[str], typer.Option("--group", "-g")] = None,
         child: Annotated[Optional[bool], typer.Option("--child", "-c")] = False,
          all: Annotated[Optional[bool], typer.Option("--all", "-a")] = False,):
-    """Kill a subprocess by PID, group name."""
+    """
+    Kill a subprocess by PID, group name.
+
+    params:
+    pid: int -> kill a process by it's pid.
+    group: str -> kill a process by it's group name.'
+    child: bool -> kill all child process of a group. This can only be used with --group or -g.
+    all: bool -> kill all existing process.
+
+    """
 
     # validating arguments so that only one argument is given otherwise throw error
     args_given = sum([pid != 0, group is not None, all is not False])
