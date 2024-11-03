@@ -8,10 +8,10 @@ The commands this module manages are
 
 import typer
 import psutil
+import random
 import subprocess
 from pm.settings import state
 from typing import Optional
-from enum import Enum
 from typing_extensions import Annotated
 from pm.schema import Relation
 
@@ -27,19 +27,22 @@ def create(command: Annotated[str, typer.Argument()],
         if not group:
             typer.echo(f"Error 800: Please specify an existing group of a parent process")
             raise typer.Exit(code=1)
-        elif group not in state.get_parents_groupname():
-            typer.echo(f"Error 801: No parent group with this name exist. "
+        elif group in state.get_parents_groupname():
+            typer.echo(f"Error 801: No parent group with this group name exist. "
                        f"Please specify an existing group of a parent process")
+            raise typer.Exit(code=1)
+
+    if relation == Relation.PARENT:
+        if not group:
+            group = f"group-{random.randint(1, 1000000)}"
+        elif state.is_group_exist(group):
+            typer.echo(f"Error 802: A group can have only one parent process.")
             raise typer.Exit(code=1)
 
     proc = subprocess.Popen(command, shell=True)
     pid = proc.pid
 
-    if relation == Relation.PARENT:
-        if not group:
-            group = str(pid)
-        elif state.is_group_exist(group):
-            typer.echo(f"Error 802: A group can have only one parent process.")
+
 
     data = {
         "command": command,

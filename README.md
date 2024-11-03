@@ -55,8 +55,9 @@ Note: Other than -c only one options can be used at a time. -c flag must be used
 Example:
 ```
 pm kill <PID>
-pm -g <group_name>
-pm -a
+pm kill -g <group_name>
+pm kill -g <group_name> -c
+pm kill -a
 ```
 ### <^> Additional commands
 Recreate all process managed by the tool:
