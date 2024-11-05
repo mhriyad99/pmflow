@@ -7,6 +7,14 @@
 ```
 pip install pmflow
 ```
+Windows Installation: After installing pmflow with pip on windows make sure the path where the pm script is in the environment variable.
+
+Use the below command in cmd to see the installation location of the pmflow
+```
+pip show pmflow
+```
+It should be something like ```C:\your\installation\location\Python\Python3<version>\site-packages``` in ```Python3<version>``` directory there should be a directory 
+named ```scripts```. Make sure the path ```C:\your\installation\location\Python\Python3<version>\site-packages``` is a environment variable and you should be good to go.
 ## Commands
 ### <^> Main commands
 create: Creates a new process

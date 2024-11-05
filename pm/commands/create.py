@@ -27,7 +27,7 @@ def create(command: Annotated[str, typer.Argument()],
         if not group:
             typer.echo(f"Error 800: Please specify an existing group of a parent process")
             raise typer.Exit(code=1)
-        elif group in state.get_parents_groupname():
+        elif group not in state.get_parents_groupname():
             typer.echo(f"Error 801: No parent group with this group name exist. "
                        f"Please specify an existing group of a parent process")
             raise typer.Exit(code=1)
