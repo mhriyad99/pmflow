@@ -25,6 +25,5 @@ app.command()(kill)
 # Commands related to process presentation
 app.command()(ls)
 
-
 if __name__ == "__main__":
     app()

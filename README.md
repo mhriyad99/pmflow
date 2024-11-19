@@ -1,5 +1,5 @@
 # PMFlow
-<p style="font-size:15px;">This is a simple process managing tool</p>
+<p style="font-size:15px;">This is a simple process managing command line tool</p>
 
 <p style="font-size:15px;">This tools keeps the information of the processes it manages in a json file created at it's installation location</p>
 

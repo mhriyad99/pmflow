@@ -42,8 +42,6 @@ def create(command: Annotated[str, typer.Argument()],
     proc = subprocess.Popen(command, shell=True)
     pid = proc.pid
 
-
-
     data = {
         "command": command,
         "name": name,
@@ -52,8 +50,9 @@ def create(command: Annotated[str, typer.Argument()],
         "relation": relation,
     }
     state.add_process(pid, data)
-    if verbose:
-        typer.echo(f"Process started with PID: {pid}")
+
+    typer.echo(f"Process started with PID: {pid}")
+
 
 
 def recreate():
