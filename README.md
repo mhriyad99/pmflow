@@ -26,7 +26,8 @@ Optional arguments:
 - --name or -n : str (default: None)
 - --group or -g : str (default: process_id)
 - --relation or -r : "parent" | "child" (default: "parent")
-- --verbose or -v: (default: false)
+- --forground or -f: bool (default: false) Keeps the process alive. Useful in making .service.
+- --verbose or -v: (default: false) For extra information (currently not useful)
 
 Note: A child process must have a group name and the group must have a parent process.
 

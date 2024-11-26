@@ -19,6 +19,7 @@ def create(command: Annotated[str, typer.Argument()],
            name: Annotated[Optional[str], typer.Option("--name","-n")] = None,
            group: Annotated[Optional[str], typer.Option("--group","-g")] = None,
            relation: Annotated[Relation, typer.Option("--relation", "-r")] = Relation.PARENT,
+           foreground: Annotated[bool, typer.Option("--foreground","-f")] = False,
            verbose: Annotated [bool, typer.Option("--verbose", "-v")] = False) -> int:
 
     """Create a new subprocess and optionally assign a name."""
@@ -52,6 +53,10 @@ def create(command: Annotated[str, typer.Argument()],
     state.add_process(pid, data)
 
     typer.echo(f"Process started with PID: {pid}")
+
+    if foreground:
+        proc.wait()
+    typer.echo(f"Process with PID: {pid} has stopped.")
 
 
 

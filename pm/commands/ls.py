@@ -65,23 +65,3 @@ def ls(json_output: Annotated[bool, typer.Option("--json", "-j")] = False,
 
         console = Console()
         console.print(table)
-
-# def status(pid: Annotated[int, typer.Argument()]):
-#     if state.is_exist(str(pid)):
-#         try:
-#              proc = state.get_instance(str(pid))
-#              if proc.status() != psutil.STATUS_STOPPED:
-#                  stdout, stderr = proc.stdout.readline(), proc.stderr.readline()
-#                  if stdout:
-#                      typer.echo(f'Output: {stdout}')
-#                  if stderr:
-#                      typer.echo(f'Error Output: {stderr}')
-#
-#         except Exception as e:
-#             pass
-#     else:
-#         typer.echo("Error 1001: Process not managed by this tool")
-#         raise typer.Exit(code=1)
-#
-# def process_instance():
-#     typer.echo(state.process_instances)

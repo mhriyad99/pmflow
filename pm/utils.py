@@ -21,7 +21,6 @@ class StateManager(StateBase):
     def __init__(self, state_file):
         self.STATE_FILE = state_file
         self.processes = {}
-        self.process_instances = {}
         self.load_state()
 
     def load_state(self):
@@ -44,17 +43,12 @@ class StateManager(StateBase):
         self.processes[str(pid)] = data
         self.save()
 
-    def add_instance(self, pid, instance):
-        self.process_instances[str(pid)] = instance
-
     def remove_process(self, pid):
         self.processes.pop(str(pid), None)
-        self.process_instances.pop(str(pid), None)
         self.save()
 
     def remove_all_processes(self):
         self.processes = {}
-        self.process_instances = {}
         self.save()
 
     def update_process(self, pid, key, value):
@@ -76,9 +70,6 @@ class StateManager(StateBase):
     def get_a_group(self, group_name: str) -> Dict:
         group_process = {pid: data for pid, data in self.processes.items() if data["group"] == group_name}
         return group_process
-
-    def get_instance(self, pid: str):
-        return self.process_instances.get(str(pid), None)
 
     def is_exist(self, pid: str) -> bool:
         return str(pid) in self.processes
