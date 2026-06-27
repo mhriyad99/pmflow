@@ -13,7 +13,7 @@ __pycache__/
 
 # C extensions
 *.so
-
+processes_state.json
 # Distribution / packaging
 .Python
 build/

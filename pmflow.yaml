@@ -1,0 +1,27 @@
+# pmflow.yaml — example multi-process configuration
+# Run `pm up` to start all processes defined here.
+# Run `pm down` to stop them.
+
+version: 1
+
+processes:
+  api:
+    command: uvicorn app:app --host 0.0.0.0 --port 8000
+    group: backend
+    relation: parent
+    log_file: logs/api.log
+    autostart: true
+
+  worker:
+    command: celery -A tasks worker --loglevel=info
+    group: backend
+    relation: child
+    log_file: logs/worker.log
+    autostart: true
+
+  scheduler:
+    command: celery -A tasks beat
+    group: backend
+    relation: child
+    log_file: logs/scheduler.log
+    autostart: false
