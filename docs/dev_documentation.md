@@ -33,6 +33,14 @@
 
 ---
 
+## Roadmap
+
+| Document | Description |
+|----------|-------------|
+| [improvements.md](improvements.md) | Incremental feature ideas that fit the current architecture (2026-06-27) |
+
+---
+
 ## Changelog
 
 See [CHANGELOG.md](../CHANGELOG.md) for a history of all releases.
